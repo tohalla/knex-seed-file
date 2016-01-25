@@ -1,0 +1,20 @@
+{
+  "name": "knex-seed-file",
+  "version": "0.1.0",
+  "description": "Tool that helps using seed files",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [
+    "knex",
+    "db",
+    "bookshelf",
+    "node",
+    "seed"
+  ],
+  "author": "Touko Hallasmaa",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.1.2"
+  }
+}
