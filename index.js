@@ -17,6 +17,8 @@ module.exports = function(knex, path, tableName, mapTo, options) {
       options.rowSeparator : '\n';
     options.encoding = typeof options.encoding !== 'undefined' ?
       options.encoding : 'utf8';
+    options.ignoreFirstLine = typeof options.ignoreFirstLine !== 'undefined' ?
+      options.ignoreFirstLine : false;
 
     var stream = fs.createReadStream(path);
     stream.setEncoding(options.encoding);
@@ -27,19 +29,23 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 
     stream.on('data', function(chunk) {
       var tempRows = chunk.split(options.rowSeparator);
-      if(splitEnd.length > 0) {
+      if (splitEnd.length > 0) {
         tempRows[0] = splitEnd + tempRows[0];
         splitEnd = '';
       }
-      if(!tempRows[tempRows.length-1].endsWith(options.rowSeparator)){
+      if (!tempRows[tempRows.length-1].endsWith(options.rowSeparator)){
         splitEnd = tempRows.pop();
+      }
+      if (ignoreFirstLine) {
+        tempRows.shift();
+        ignoreFirstLine = false;
       }
 
       tempRows.map(function(row) {
         var cols = row.split(options.columnSeparator);
         var knexRow = {};
         mapTo.map(function(key, index) {
-          if(key === null) {
+          if (key === null) {
             return;
           }
           knexRow[key] = cols[index];
