@@ -7,6 +7,7 @@ npm install --save-dev knex-from-file
 ```
 ## Usage
 In this we'll use [csv file](example/fruits.csv) generated with excel:
+
 ![fruits](example/fruits-excel.png)
 
 We want to ignore ascii value for color and use only columns 'id', 'name' and 'hexColor'
