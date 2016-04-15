@@ -3,7 +3,7 @@ A tool that makes using seed files easier with [knex](https://github.com/tgriess
 
 ## Installation
 ```
-npm install --save-dev knex-from-file
+npm install --save-dev knex-seed-file
 ```
 ## Usage
 In this we'll use [csv file](example/fruits.csv) generated with excel:
