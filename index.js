@@ -36,9 +36,9 @@ module.exports = function(knex, path, tableName, mapTo, options) {
       if (!tempRows[tempRows.length-1].endsWith(options.rowSeparator)){
         splitEnd = tempRows.pop();
       }
-      if (ignoreFirstLine) {
+      if (options.ignoreFirstLine) {
         tempRows.shift();
-        ignoreFirstLine = false;
+        options.ignoreFirstLine = false;
       }
 
       tempRows.map(function(row) {
