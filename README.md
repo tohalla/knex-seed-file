@@ -19,7 +19,7 @@ seedFile(knex, path, tableName, mapTo, options)
 ```javascript
 const path = require('path');
 
-const seedFile = require('knex-from-file');
+const seedFile = require('knex-seed-file');
 
 exports.seed = function(knex, Promise) {
   return Promise.join(
