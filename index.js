@@ -55,7 +55,9 @@ module.exports = function(knex, path, tableName, mapTo, options) {
     })
 
     stream.on('end', function() {
-      return Promise.all(inserts).then(resolve('all rows inserted'));
+        return Promise.all(inserts).then(function () {
+            return resolve('all rows inserted');
+        });
     });
   });
 }
