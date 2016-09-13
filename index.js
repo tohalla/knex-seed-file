@@ -45,7 +45,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
         var cols = row.split(options.columnSeparator);
         var knexRow = {};
         mapTo.map(function(key, index) {
-          if (key === null) {
+          if (key === null || cols[index] === null || cols[index].length == 0) {
             return;
           }
           knexRow[key] = cols[index];
