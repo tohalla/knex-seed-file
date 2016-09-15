@@ -10,7 +10,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
     ) {
       reject('path, tableName and mapTo needs to be defined');
     }
-    options = typeof options !== 'undefined' ? options : {};
+    options = typeof options !== 'undefined' ? Object.assign({}, options) : {};
     options.columnSeparator = typeof options.columnSeparator !== 'undefined' ?
       options.columnSeparator : '\t';
     options.rowSeparator = typeof options.rowSeparator !== 'undefined' ?
@@ -45,7 +45,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
         var cols = row.split(options.columnSeparator);
         var knexRow = {};
         mapTo.map(function(key, index) {
-          if (key === null || cols[index] === null || cols[index].length == 0) {
+          if (key === null || !cols[index]) {
             return;
           }
           knexRow[key] = cols[index];
