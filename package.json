@@ -1,6 +1,6 @@
 {
   "name": "knex-seed-file",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Tool that helps using seed files",
   "main": "index.js",
   "scripts": {},
