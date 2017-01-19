@@ -5,8 +5,8 @@ module.exports = function(knex, path, tableName, mapTo, options) {
   return new Promise(function(resolve, reject) {
     if(
       typeof path === 'undefined' ||
-      tableName === 'undefined' ||
-      mapTo === 'undefined'
+      typeof tableName === 'undefined' ||
+      typeof mapTo === 'undefined'
     ) {
       reject('path, tableName and mapTo needs to be defined');
     }
@@ -45,19 +45,19 @@ module.exports = function(knex, path, tableName, mapTo, options) {
         var cols = row.split(options.columnSeparator);
         var knexRow = {};
         mapTo.map(function(key, index) {
-          if (key === null || !cols[index]) {
+          if (key === null) {
             return;
           }
-          knexRow[key] = cols[index];
+          knexRow[key] = cols[index] || null;
         });
         inserts.push(knex(tableName).insert(knexRow));
       });
     })
 
     stream.on('end', function() {
-        return Promise.all(inserts).then(function () {
-            return resolve('all rows inserted');
-        });
+      return Promise.all(inserts).then(function () {
+        return resolve('all rows inserted');
+      });
     });
   });
 }
