@@ -22,9 +22,8 @@ const path = require('path');
 const seedFile = require('knex-seed-file');
 
 exports.seed = function(knex, Promise) {
-  return Promise.join(
-    knex('locations').del(),
-    seedFile(knex, path.resolve('./fruits.csv'), 'fruits', [
+	knex('fruits').del())
+    .then(() => seedFile(knex, path.resolve('./fruits.csv'), 'fruits', [
       'id',
       'name',
       null,
@@ -32,7 +31,7 @@ exports.seed = function(knex, Promise) {
     ], {
       columnSeparator: ';',
       ignoreFirstLine: true
-    })
+    }));
   );
 };
 ```
