@@ -4,6 +4,10 @@
   "description": "Tool that helps using seed files",
   "main": "index.js",
   "scripts": {},
+  "repository": {
+  	"type" : "git",
+  	"url" : "https://github.com/tohalla/knex-seed-file"
+  },
   "keywords": [
     "knex",
     "db",
