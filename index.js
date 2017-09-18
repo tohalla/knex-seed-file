@@ -54,14 +54,16 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 						knexRow[key] = cols[index];
 					}
 				});
-				inserts.push(knex(tableName).insert(knexRow));
+				inserts.push(knexRow);
 			});
-		})
+		});
 
 		stream.on('end', function() {
-			return Promise.all(inserts).then(function () {
-				return resolve('all rows inserted');
-			});
+			knex(tableName)
+				.insert(inserts)
+				.then(function () {
+					return resolve('all rows inserted');
+				});
 		});
 	});
 }
