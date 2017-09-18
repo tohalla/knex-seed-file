@@ -36,20 +36,20 @@ exports.seed = function(knex, Promise) {
 };
 ```
 ## Attributes
-####knex
+#### knex
 Knex instance
-####path
+#### path
 Absolute file location
-####tableName
+#### tableName
 Table, where rows will be added
-####mapTo
+#### mapTo
 Will define where files columns(from left to right) will be mapped in the table
-####options
-#####columnSeparator
+#### options
+##### columnSeparator
 *defaults to \t*
-#####rowSeparator
+##### rowSeparator
 *defaults to \n*
-#####encoding
+##### encoding
 *defaults to utf8*
-#####ignoreFirstLine
+##### ignoreFirstLine
 *defaults to false*
