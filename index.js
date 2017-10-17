@@ -20,7 +20,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 		options.ignoreFirstLine = typeof options.ignoreFirstLine === 'boolean' ?
 			options.ignoreFirstLine : false;
 		options.handleInsert = typeof options.handleInsert === 'function' ?
-			options.handleInsert : function(inserts) {
+			options.handleInsert : function(inserts, tableName) {
 				return knex(tableName)
 					.insert(inserts);
 			};
@@ -64,7 +64,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 		});
 
 		stream.on('end', function() {
-			Promise.resolve(options.handleInsert(inserts))
+			Promise.resolve(options.handleInsert(inserts, tableName))
 				.then(resolve('all rows inserted'));
 		});
 	});
