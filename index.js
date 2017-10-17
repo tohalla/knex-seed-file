@@ -11,14 +11,19 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 			reject('path, tableName and mapTo needs to be defined');
 		}
 		options = typeof options !== 'undefined' ? Object.assign({}, options) : {};
-		options.columnSeparator = typeof options.columnSeparator !== 'undefined' ?
+		options.columnSeparator = typeof options.columnSeparator === 'string' ?
 			options.columnSeparator : '\t';
-		options.rowSeparator = typeof options.rowSeparator !== 'undefined' ?
+		options.rowSeparator = typeof options.rowSeparator === 'string' ?
 			options.rowSeparator : '\n';
-		options.encoding = typeof options.encoding !== 'undefined' ?
+		options.encoding = typeof options.encoding === 'string' ?
 			options.encoding : 'utf8';
-		options.ignoreFirstLine = typeof options.ignoreFirstLine !== 'undefined' ?
+		options.ignoreFirstLine = typeof options.ignoreFirstLine === 'boolean' ?
 			options.ignoreFirstLine : false;
+		options.handleInsert = typeof options.handleInsert === 'function' ?
+			options.handleInsert : function(inserts) {
+				return knex(tableName)
+					.insert(inserts);
+			};
 
 		var stream = fs.createReadStream(path);
 		stream.setEncoding(options.encoding);
@@ -59,11 +64,8 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 		});
 
 		stream.on('end', function() {
-			knex(tableName)
-				.insert(inserts)
-				.then(function () {
-					return resolve('all rows inserted');
-				});
+			Promise.resolve(options.handleInsert(inserts))
+				.then(resolve('all rows inserted'));
 		});
 	});
 }
