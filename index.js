@@ -6,8 +6,7 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 		if(
 			typeof path === 'undefined' ||
 			typeof tableName === 'undefined' ||
-			typeof mapTo === 'undefined' ||
-			(typeof mapTo === 'object' && !mapTo.useFirstLineForColumns)
+			(typeof mapTo === 'undefined' && !mapTo.useFirstLineForColumns)
 		) {
 			reject('path, tableName and mapTo needs to be defined');
 		}
