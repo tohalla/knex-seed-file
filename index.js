@@ -1,25 +1,26 @@
 const fs = require('fs');
 const Promise = require('bluebird');
 
-module.exports = function(knex, path, tableName, mapTo, options) {
+module.exports = function(knex, path, tableName, options) {
   return new Promise(function(resolve, reject) {
-    if (
-      typeof path === 'undefined' ||
-      typeof tableName === 'undefined' ||
-      (typeof mapTo === 'undefined' && !mapTo.useFirstLineForColumns)
-    ) {
-      reject(Error('path, tableName and mapTo needs to be defined'));
-    }
     options = Object.assign({
       columnSeparator: '\t',
       rowSeparator: '\n',
       encoding: 'utf8',
-      ignoreFirstLine: Boolean(useFirstLineForColumns),
-      useFirstLineForColumns: false,
+      ignoreFirstLine: false,
+      useFirstLineForColumns: true,
       handleInsert: function(inserts, tableName) {
         return knex(tableName).insert(inserts);
       },
     }, options);
+
+    if (
+      typeof path === 'undefined' ||
+      typeof tableName === 'undefined' ||
+      (typeof options.mapTo === 'undefined' && !options.useFirstLineForColumns)
+    ) {
+      reject(Error('path, tableName and mapTo needs to be defined'));
+    }
 
     const stream = fs.createReadStream(path).setEncoding(options.encoding);
 
