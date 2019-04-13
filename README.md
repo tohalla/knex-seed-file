@@ -53,3 +53,7 @@ Will define where files columns(from left to right) will be mapped in the table
 *defaults to utf8*
 ##### ignoreFirstLine
 *defaults to false*
+##### useFirstLineForColumns
+*defaults to false*
+
+If you use useFirstLineForColumns, you do not need to specify a mapTo array

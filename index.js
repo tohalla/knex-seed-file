@@ -6,9 +6,14 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 		if(
 			typeof path === 'undefined' ||
 			typeof tableName === 'undefined' ||
-			typeof mapTo === 'undefined'
+			typeof mapTo === 'undefined' ||
+			(typeof mapTo === 'object' && !mapTo.useFirstLineForColumns)
 		) {
 			reject('path, tableName and mapTo needs to be defined');
+		}
+		if (typeof mapTo === 'object') {
+			options = mapTo;
+			mapTo = [];
 		}
 		options = typeof options !== 'undefined' ? Object.assign({}, options) : {};
 		options.columnSeparator = typeof options.columnSeparator === 'string' ?
@@ -19,6 +24,8 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 			options.encoding : 'utf8';
 		options.ignoreFirstLine = typeof options.ignoreFirstLine === 'boolean' ?
 			options.ignoreFirstLine : false;
+		options.useFirstLineForColumns = typeof options.useFirstLineForColumns === 'boolean' ?
+			options.useFirstLineForColumns : false;
 		options.handleInsert = typeof options.handleInsert === 'function' ?
 			options.handleInsert : function(inserts, tableName) {
 				return knex(tableName)
@@ -41,9 +48,14 @@ module.exports = function(knex, path, tableName, mapTo, options) {
 			if (!tempRows[tempRows.length-1].endsWith(options.rowSeparator)){
 				splitEnd = tempRows.pop();
 			}
-			if (options.ignoreFirstLine) {
-				tempRows.shift();
+			if (options.ignoreFirstLine || options.useFirstLineForColumns) {
+				if (options.useFirstLineForColumns) {
+					mapTo = tempRows.shift().split(options.columnSeparator);
+				} else {
+					tempRows.shift();
+				}
 				options.ignoreFirstLine = false;
+				options.useFirstLineForColumns = false;
 			}
 
 			tempRows.map(function(row) {
