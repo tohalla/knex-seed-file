@@ -27,7 +27,7 @@ module.exports = function(knex, path, tableName, options) {
 
     const stream = fs.createReadStream(path).setEncoding(options.encoding);
 
-    const splitEnd = '';
+    let splitEnd = '';
 
     const inserts = [];
 
