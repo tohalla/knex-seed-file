@@ -13,7 +13,9 @@ module.exports = function(knex, path, tableName, options) {
         return knex(tableName).insert(inserts);
       },
     }, options);
-    if (options.mapTo) {
+
+    let mapTo = options.mapTo;
+    if (mapTo) {
       options.useFirstLineForColumns = false;
     }
 
