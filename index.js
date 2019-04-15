@@ -71,7 +71,7 @@ module.exports = function(knex, path, tableName, options) {
 
     stream.on('end', function() {
       options.handleInsert(inserts, tableName)
-          .then(resolve('all rows inserted'));
+          .then(resolve);
     });
   });
 };
